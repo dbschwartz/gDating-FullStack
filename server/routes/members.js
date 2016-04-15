@@ -6,9 +6,9 @@ var handlers = require('./helpers/handlers');
 router.get('/ping', ping);
 router.get('/', getAll);
 router.post('/', create);
-router.get('/:slug', getOne);
-router.put('/:slug', update);
-router.delete('/:slug', deleteOne);
+router.get('/:id', getOne);
+router.put('/:id', update);
+router.delete('/:id', deleteOne);
 
 module.exports = router;
 
@@ -33,7 +33,7 @@ function getAll (req, res) {
 };
 
 function getOne (req, res) {
-  Member.find({ slug: req.params.slug }).exec()
+  Member.findOne({ _id: req.params.id }).exec()
     .then(handlers.success(res))
     .catch(handlers.error(res));
 }
@@ -45,7 +45,7 @@ function create (req, res) {
 }
 
 function update (req, res) {
-  var query = { slug: req.params.slug };
+  var query = { _id: req.params.id };
   var options = { new: true, runValidators: true, setDefaultsOnInsert: true }
 
   Member.findOneAndUpdate(query, req.body, options)
@@ -54,7 +54,7 @@ function update (req, res) {
 }
 
 function deleteOne (req, res) {
-  var query = { slug: req.params.slug };
+  var query = { _id: req.params.id };
   var options = { new: true, runValidators: true, setDefaultsOnInsert: true }
 
   Member.findOneAndUpdate(query, { active: false }, options)
