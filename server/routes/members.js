@@ -1,8 +1,14 @@
 var express = require('express');
 var router = express.Router();
+var Member = require('../db/models').Member;
 var handlers = require('./helpers/handlers');
 
 router.get('/ping', ping);
+router.get('/', getAll);
+router.post('/', create);
+router.get('/:slug', getOne);
+router.put('/:slug', update);
+router.delete('/:slug', deleteOne);
 
 module.exports = router;
 
@@ -11,3 +17,47 @@ module.exports = router;
 function ping (req, res, next) {
   res.status(200).send({ message: 'OK' });
 };
+
+function getAll (req, res) {
+  var promise = Member.find();
+
+  var limit = parseInt(req.query.limit);
+  if ( limit && Number.isInteger(limit) ) { promise = promise.limit(limit); }
+
+  var offset = parseInt(req.query.offset);
+  if ( offset && Number.isInteger(offset) ) { promise = promise.skip(offset); }
+
+  promise.exec()
+    .then(handlers.success(res))
+    .catch(handlers.error(res));
+};
+
+function getOne (req, res) {
+  Member.find({ slug: req.params.slug }).exec()
+    .then(handlers.success(res))
+    .catch(handlers.error(res));
+}
+
+function create (req, res) {
+  Member.create(req.body)
+    .then(handlers.success(res, 201))
+    .catch(handlers.error(res, 422));
+}
+
+function update (req, res) {
+  var query = { slug: req.params.slug };
+  var options = { new: true, runValidators: true, setDefaultsOnInsert: true }
+
+  Member.findOneAndUpdate(query, req.body, options)
+    .then(handlers.success(res))
+    .catch(handlers.error(res, 422));
+}
+
+function deleteOne (req, res) {
+  var query = { slug: req.params.slug };
+  var options = { new: true, runValidators: true, setDefaultsOnInsert: true }
+
+  Member.findOneAndUpdate(query, { active: false }, options)
+    .then(handlers.success(res))
+    .catch(handlers.error(res, 422));
+}
