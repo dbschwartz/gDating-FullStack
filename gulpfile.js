@@ -4,6 +4,8 @@
 
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
+var browserSync = require('browser-sync');
+var reload = browserSync.reload;
 var connect = require('gulp-connect');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
