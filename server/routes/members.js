@@ -3,20 +3,20 @@ var router = express.Router();
 var Member = require('../db/models').Member;
 var handlers = require('./helpers/handlers');
 
-router.get('/ping', ping);
+router.get('/ping', handlers.ping);
 router.get('/', getAll);
 router.post('/', create);
 router.get('/:id', getOne);
 router.put('/:id', update);
 router.delete('/:id', deleteOne);
 
+// conversations routes
+var conversationsRoutes = require('./conversations');
+router.use('/:id/conversations', conversationsRoutes);
+
 module.exports = router;
 
 ///////////////////////////
-
-function ping (req, res, next) {
-  res.status(200).send({ message: 'OK' });
-};
 
 function getAll (req, res) {
   var promise = Member.find();
