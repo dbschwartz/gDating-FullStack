@@ -2,7 +2,6 @@ var Promise = require('bluebird');
 var express = require('express');
 var router = express.Router({ mergeParams: true });
 var db = require('../db/models');
-var ObjectId = require('mongoose').Types.ObjectId;
 var handlers = require('./helpers/handlers');
 
 router.get('/ping', handlers.ping);
