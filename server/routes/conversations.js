@@ -6,11 +6,23 @@ var ObjectId = require('mongoose').Types.ObjectId;
 var handlers = require('./helpers/handlers');
 
 router.get('/ping', handlers.ping);
+router.get('/', getAll);
 router.post('/', createOrUpdate);
+router.get('/:recipientId', getOne);
 
 module.exports = router;
 
 ///////////////////////////
+
+function getAll (req, res) {
+  db.Conversation.find({
+    _members: {
+      $in: [{ _id: req.params.id }]
+    }
+  })
+  .then(handlers.success(res))
+  .catch(handlers.error(res));
+};
 
 function createOrUpdate (req, res) {
   if ( !req.body.content ) {
@@ -24,7 +36,17 @@ function createOrUpdate (req, res) {
     .then(upsert)
     .then(handlers.success(res, 201))
     .catch(handlers.error(res, 422));
-}
+};
+
+function getOne (req, res) {
+  db.Conversation.find({
+    _members: {
+      $all: [{ _id: req.params.id }, { _id: req.params.recipientId }]
+    }
+  })
+  .then(handlers.success(res))
+  .catch(handlers.error(res));
+};
 
 function upsert (msg) {
   return db.Conversation.findOne({
