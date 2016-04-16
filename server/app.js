@@ -26,7 +26,6 @@ app.use(cookieParser());
 // *** main routes *** //
 app.use('/', routes);
 app.use('/members', membersRoutes);
-app.use('/matches', matchesRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

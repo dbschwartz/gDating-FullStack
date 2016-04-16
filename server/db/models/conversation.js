@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 var ObjectId = Schema.Types.ObjectId;
+var validations = require('./validations');
 mongoose.Promise = require('bluebird');
 
 var ConversationSchema = new Schema({
@@ -9,7 +10,10 @@ var ConversationSchema = new Schema({
       type: ObjectId,
       ref: 'members'
     }],
-    validate: [ memberLimit, '{PATH} must have two members. Value: {VALUE}' ]
+    validate: [
+      validations.memberLimit,
+      '{PATH} must have two members. Value: {VALUE}'
+    ]
   },
   messages: [{
     _sender: {
@@ -32,9 +36,3 @@ var ConversationSchema = new Schema({
 var Conversation = mongoose.model('conversations', ConversationSchema);
 
 module.exports = Conversation;
-
-//////////////////
-
-function memberLimit (val) {
-  return val.length === 2;
-};

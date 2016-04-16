@@ -14,6 +14,10 @@ router.delete('/:id', deleteOne);
 var conversationsRoutes = require('./conversations');
 router.use('/:id/conversations', conversationsRoutes);
 
+// matches routes
+var matchesRoutes = require('./matches');
+router.use('/:id/matches', matchesRoutes);
+
 module.exports = router;
 
 ///////////////////////////
