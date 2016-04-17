@@ -4,7 +4,8 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var db = require('./db/models');
+var Promise = require('bluebird');
+var seedFns = require('./db/seeds/')
 
 // *** routes *** //
 var routes = require('./routes/index.js');
@@ -26,6 +27,14 @@ app.use(cookieParser());
 // *** main routes *** //
 app.use('/', routes);
 app.use('/members', membersRoutes);
+
+// *** seed data if there is none *** //
+
+seedFns.begin()
+.then(function (result) {
+  console.log('\nSeed check complete.'.blue);
+  console.log('---------------------------'.blue);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

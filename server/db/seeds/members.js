@@ -2,7 +2,29 @@ var faker = require('faker');
 var Promise = require('bluebird');
 var Member = require('../models').Member;
 
-function createPerson () {
+module.exports = seedData;
+
+function seedData (num) {
+  var promises = [];
+  var toGenerate = num || 1000;
+
+  for ( var i = 0; i < toGenerate; i++ ) {
+    var member = new Member(constructPerson())
+      .save()
+      .catch(function (err) {
+        console.log('Error generated member:', err);
+        return err;
+      });
+    promises.push(member);
+  };
+
+  return Promise.all(promises).then(function (result) {
+    console.log('Successfully seeded random members.');
+    return result;
+  });
+};
+
+function constructPerson () {
   var person = faker.helpers.contextualCard();
   delete person.name;
 
@@ -36,19 +58,3 @@ function createPerson () {
 
   return person;
 };
-
-var count = 0;
-var promises = [];
-for ( var i = 0; i < 1000; i++ ) {
-  promises.push(new Member(createPerson()).save()
-    .then(function () { return ++count; })
-    .catch(function (error) {
-      console.log('Error', error);
-      return error;
-    }));
-}
-
-Promise.all(promises).then(function (result) {
-  console.log('Successfully seeded ' + count + ' random members.');
-  return;
-})
