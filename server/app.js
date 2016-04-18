@@ -38,11 +38,7 @@ app.use('/members', membersRoutes);
 
 // *** seed data if there is none *** //
 
-seedFns.begin()
-.then(function (result) {
-  console.log('\nSeed check complete.'.blue);
-  console.log('---------------------------'.blue);
-});
+seedFns.begin();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
