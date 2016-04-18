@@ -103,7 +103,7 @@ var MemberSchema = new Schema({
   },
   _matches: [{
     type: ObjectId,
-    ref: 'members'
+    ref: 'gdating-members'
   }]
 });
 
@@ -111,5 +111,5 @@ MemberSchema.path('names.firstName').trim().capitalize();
 MemberSchema.path('names.lastName').trim().capitalize();
 MemberSchema.plugin(uniqueValidator);
 
-var Member = mongoose.model('members', MemberSchema);
+var Member = mongoose.model('gdating-members', MemberSchema);
 module.exports = Member;

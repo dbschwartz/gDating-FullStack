@@ -4,14 +4,6 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var Promise = require('bluebird');
-var seedFns = require('./db/seeds/')
-
-// *** routes *** //
-var routes = require('./routes/index.js');
-var membersRoutes = require('./routes/members.js');
-var conversationsRoutes = require('./routes/conversations.js');
-var matchesRoutes = require('./routes/matches.js');
 
 // *** express instance *** //
 var app = express();
@@ -32,13 +24,9 @@ app.use(function(req, res, next) {
 });
 
 
-// *** main routes *** //
-app.use('/', routes);
-app.use('/members', membersRoutes);
+// *** app declarations *** //
+require('./gdating')(app);
 
-// *** seed data if there is none *** //
-
-seedFns.begin();
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -8,7 +8,7 @@ var ConversationSchema = new Schema({
   _members: {
     type: [{
       type: ObjectId,
-      ref: 'members'
+      ref: 'gdating-members'
     }],
     validate: [
       validations.memberLimit,
@@ -33,6 +33,6 @@ var ConversationSchema = new Schema({
   }]
 });
 
-var Conversation = mongoose.model('conversations', ConversationSchema);
+var Conversation = mongoose.model('gdating-conversations', ConversationSchema);
 
 module.exports = Conversation;
