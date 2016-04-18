@@ -36,7 +36,7 @@ Overall, you may design the app how you like! We have intentionally tried to kee
 * [Home Page](./mockups/home.png)
 * [Register](./mockups/register.png) & [Login](./mockups/login.png)
 * [Members (all)](./mockups/members.png)
-* Single Member ([matched](./mockups/member-matched.png) & [unmatched](./mockups/member-matched.png))
+* Single Member ([matched](./mockups/member-matched.png) & [unmatched](./mockups/member-unmatched.png))
 * [Search](./mockups/search.png)
 * [User Profile](./mockups/profile)
 
