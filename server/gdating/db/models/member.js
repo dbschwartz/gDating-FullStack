@@ -96,7 +96,6 @@ var MemberSchema = new Schema({
       min: 0,
       max: 3
     }],
-    required: true,
     default: [ 0, 1, 2, 3 ],
     validate: [
       validations.uniqueVals,
