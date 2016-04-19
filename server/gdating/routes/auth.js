@@ -6,37 +6,21 @@ var jwt = require('jwt-simple');
 var handlers = require('./helpers/handlers');
 var Promise = require('bluebird');
 
-
-router.post('/auth/register', function(req, res, next) {
+router.post('/register', function(req, res, next) {
   // ensure user does not already exist
-  Member.findOne({email: req.body.email})
-  .then(function (existingUser) {
-    if (existingUser) {
-      return res.status(409).json({
-        status: 'fail',
-        message: 'Email already exists'
+  Member.create(req.body)
+    .then(function (member) {
+      var token = generateToken(member);
+      return Promise.resolve({
+        token: token,
+        data: member
       });
-    }
-    // create new user
-    var newUser = new Member(req.body);
-    newUser.save(function () {
-      // create token
-      var token = generateToken(newUser);
-      res.status(200).json({
-        status: 'success',
-        data: {
-          token: token,
-          user: newUser.email
-        }
-      });
-    });
-  })
-  .catch(function (err) {
-    return next(err);
-  });
+    })
+    .then(handlers.success(res, 201))
+    .catch(handlers.error(res, 422));
 });
 
-router.post('/auth/login', function (req, res, next) {
+router.post('/login', function (req, res, next) {
   // ensure that user exists
   Member.findOne({email: req.body.email})
   .then(function (user) {
@@ -46,6 +30,12 @@ router.post('/auth/login', function (req, res, next) {
         message: 'Email does not exist'
       });
     } else
+      if ( !req.body.password ) {
+        return res.status(401),json({
+          status: 'fail',
+          message: 'Missing password.'
+        });
+      }
       user.comparePassword(req.body.password, function (err, match) {
         if (err) {
           return next(err);

@@ -57,9 +57,23 @@ function update (req, res) {
   var query = { _id: req.params.id };
   var options = { new: true, runValidators: true, setDefaultsOnInsert: true };
 
-  Member.findOneAndUpdate(query, req.body, options)
+  Member.findOne(query)
+    .then(saveMember(req.body))
     .then(handlers.success(res))
     .catch(handlers.error(res, 422));
+}
+
+function saveMember (body) {
+  return function (member) {
+    if ( !body || !member ) {
+      var msg = { _id: 'The Member ID provided did not return a Member resource.' };
+      return Promise.reject(msg);
+    }
+    for ( var key in body ) {
+      member[key] = body[key];
+    }
+    return member.save();
+  }
 }
 
 function deleteOne (req, res) {
