@@ -44,7 +44,148 @@
         "tags" : [ "Members" ],
         "summary" : "Create a Member",
         "description" : "The Members POST endpoint allows for the creation of a new member resource. The post body must contain the information formatted in the same structure as it is received from the GET request.\n",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "formData",
+          "description" : "The username for the Member.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "names.firstName",
+          "in" : "formData",
+          "description" : "The Member's first or preferred name.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "names.lastName",
+          "in" : "formData",
+          "description" : "The Member's last or given name.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "avatar",
+          "in" : "formData",
+          "description" : "A url to an image of the Member.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "email",
+          "in" : "formData",
+          "description" : "The Member's email address.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "password",
+          "in" : "formData",
+          "description" : "The Member's password. Must be more than 8 characters.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "dob",
+          "in" : "formData",
+          "description" : "The Member's date of birth. The Memebr must be older than 18 years old.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "phone",
+          "in" : "formData",
+          "description" : "The Member's phone number.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.street",
+          "in" : "formData",
+          "description" : "The Member's street information.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.suite",
+          "in" : "formData",
+          "description" : "The Member's suite/apt information.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.city",
+          "in" : "formData",
+          "description" : "The Member's city name.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.zipcode",
+          "in" : "formData",
+          "description" : "The Member's postal code.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.geo.lat",
+          "in" : "formData",
+          "description" : "The latitude for the Member's home location.",
+          "required" : true,
+          "type" : "number"
+        }, {
+          "name" : "address.geo.lng",
+          "in" : "formData",
+          "description" : "The longitude for the Member's home location.",
+          "required" : true,
+          "type" : "number"
+        }, {
+          "name" : "website",
+          "in" : "formData",
+          "description" : "The Member's website.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "company.name",
+          "in" : "formData",
+          "description" : "The Member's company's name.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "company.catchPhrase",
+          "in" : "formData",
+          "description" : "The Member's company's flavor text.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "company.bs",
+          "in" : "formData",
+          "description" : "The Member's company's bs phrases.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "slug",
+          "in" : "formData",
+          "description" : "A unique, dasherized string for the Member.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "gender",
+          "in" : "formData",
+          "description" : "The Member's gender as a number. Can be 0, 1, 2, or 3. Defaults to 0.",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "interestedIn",
+          "in" : "formData",
+          "description" : "What/who the Member is interested in. Defaults to an array of 0, 1, 2, and 3.",
+          "required" : true,
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "_matches",
+          "in" : "formData",
+          "description" : "An array of Member IDs.",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "_id" : "string"
+            }
+          }
+        } ],
         "responses" : {
           "201" : {
             "description" : "Successfully created.",
@@ -98,6 +239,117 @@
           "description" : "The Member's ID",
           "required" : true,
           "type" : "string"
+        }, {
+          "name" : "names.firstName",
+          "in" : "formData",
+          "description" : "The Member's first or preferred name.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "names.lastName",
+          "in" : "formData",
+          "description" : "The Member's last or given name.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "avatar",
+          "in" : "formData",
+          "description" : "A url to an image of the Member.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "password",
+          "in" : "formData",
+          "description" : "The Member's password. Must be more than 8 characters.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "dob",
+          "in" : "formData",
+          "description" : "The Member's date of birth. The Memebr must be older than 18 years old.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "phone",
+          "in" : "formData",
+          "description" : "The Member's phone number.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.street",
+          "in" : "formData",
+          "description" : "The Member's street information.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.suite",
+          "in" : "formData",
+          "description" : "The Member's suite/apt information.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.city",
+          "in" : "formData",
+          "description" : "The Member's city name.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.zipcode",
+          "in" : "formData",
+          "description" : "The Member's postal code.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "address.geo.lat",
+          "in" : "formData",
+          "description" : "The latitude for the Member's home location.",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "address.geo.lng",
+          "in" : "formData",
+          "description" : "The longitude for the Member's home location.",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "website",
+          "in" : "formData",
+          "description" : "The Member's website.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "company.name",
+          "in" : "formData",
+          "description" : "The Member's company's name.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "company.catchPhrase",
+          "in" : "formData",
+          "description" : "The Member's company's flavor text.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "company.bs",
+          "in" : "formData",
+          "description" : "The Member's company's bs phrases.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "gender",
+          "in" : "formData",
+          "description" : "The Member's gender as a number. Can be 0, 1, 2, or 3. Defaults to 0.",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "interestedIn",
+          "in" : "formData",
+          "description" : "What/who the Member is interested in. Defaults to an array of 0, 1, 2, and 3.",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "integer"
+          }
         } ],
         "responses" : {
           "200" : {
