@@ -6,6 +6,7 @@ var handlers = require('./helpers/handlers');
 router.get('/ping', handlers.ping);
 router.get('/', getMatches);
 router.post('/', create);
+router.delete('/:matchId', deleteMatch);
 
 ///////////////////////////
 
@@ -29,6 +30,17 @@ function create (req, res) {
   return Member.findOneAndUpdate(query, {
     $addToSet: { _matches: { _id: req.body._match } }
   }, options)
+  .then(handlers.success(res, 201))
+  .catch(handlers.error(res, 422));
+}
+
+function deleteMatch (req, res) {
+  var query = { _id: req.params.id };
+  var options = { new: true };
+
+  return Member.findOneAndUpdate(query, {
+    $pull: { _matches: req.params.matchId }
+  }, options).exec()
   .then(handlers.success(res, 201))
   .catch(handlers.error(res, 422));
 }
