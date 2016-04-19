@@ -1,4 +1,5 @@
 var faker = require('faker');
+var bcrypt = require('bcryptjs');
 var mongoose = require('mongoose');
 require('mongoose-setter')(mongoose);
 var Schema   = mongoose.Schema;
@@ -9,6 +10,7 @@ mongoose.Promise = require('bluebird');
 
 var MemberSchema = new Schema({
   active: { type: Boolean, default: true },
+  admin: { type: Boolean, default: false },
   username: {
     type: String,
     required: true,
@@ -94,7 +96,6 @@ var MemberSchema = new Schema({
       min: 0,
       max: 3
     }],
-    required: true,
     default: [ 0, 1, 2, 3 ],
     validate: [
       validations.uniqueVals,
@@ -110,6 +111,41 @@ var MemberSchema = new Schema({
 MemberSchema.path('names.firstName').trim().capitalize();
 MemberSchema.path('names.lastName').trim().capitalize();
 MemberSchema.plugin(uniqueValidator);
+
+// hash the password before it saving to the db
+MemberSchema.pre('save', function(next) {
+  var user = this;
+  // only hash if password is new or being modified
+  if(!user.isModified('password')) {
+    return next();
+  }
+  // generate salt
+  bcrypt.genSalt(10, function(err, salt) {
+    if(err) {
+      return next(err);
+    }
+    // hash password
+    bcrypt.hash(user.password, salt, function(err, hash) {
+      if(err) {
+        return next(err);
+      }
+      // override the plain-text password with new hashed/salted password
+      user.password = hash;
+      // go to the next middleware function
+      next();
+    });
+  });
+});
+
+// compare password to verify plain text against the hashed password
+MemberSchema.methods.comparePassword = function(password, done)  {
+  bcrypt.compare(password, this.password, function(err, match) {
+    if(err) {
+      return done(err);
+    }
+    done(err, match);
+  });
+};
 
 var Member = mongoose.model('gdating.members', MemberSchema);
 module.exports = Member;
