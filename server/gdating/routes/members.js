@@ -35,7 +35,7 @@ function getAll (req, res) {
   promise.exec()
     .then(handlers.success(res))
     .catch(handlers.error(res));
-};
+}
 
 function getOne (req, res) {
   Member.findOne({ _id: req.params.id }).exec()
@@ -55,7 +55,7 @@ function create (req, res) {
 
 function update (req, res) {
   var query = { _id: req.params.id };
-  var options = { new: true, runValidators: true, setDefaultsOnInsert: true }
+  var options = { new: true, runValidators: true, setDefaultsOnInsert: true };
 
   Member.findOneAndUpdate(query, req.body, options)
     .then(handlers.success(res))
@@ -64,7 +64,7 @@ function update (req, res) {
 
 function deleteOne (req, res) {
   var query = { _id: req.params.id };
-  var options = { new: true, runValidators: true, setDefaultsOnInsert: true }
+  var options = { new: true, runValidators: true, setDefaultsOnInsert: true };
 
   Member.findOneAndUpdate(query, { active: false }, options)
     .then(handlers.success(res))
