@@ -61,11 +61,18 @@
         }
       }
     },
-    "/members/:id" : {
+    "/members/{id}" : {
       "get" : {
+        "tags" : [ "Members" ],
         "summary" : "Retrieve a single Member",
         "description" : "The Members GET endpoint with an ID returns information about a single member resource in the database.\n",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Member's ID",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
             "description" : "A single member",
@@ -82,9 +89,16 @@
         }
       },
       "put" : {
+        "tags" : [ "Members" ],
         "summary" : "Update a single Member",
         "description" : "The Members PUT endpoint with an ID updates information about a single member. Information must be sent in the same structure retrieved from the GET, although not all information must be sent.\n",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Member's ID",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
             "description" : "Update a Member",
@@ -101,9 +115,16 @@
         }
       },
       "delete" : {
+        "tags" : [ "Members" ],
         "summary" : "Deactivates a single Member",
         "description" : "The Members DELETE endpoint with an ID changes a field of active from true to false. The record is not actually removed from the database.\n",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Member's ID",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
             "description" : "Deletes a Member",
@@ -120,11 +141,18 @@
         }
       }
     },
-    "/members/:id:/conversations" : {
+    "/members/{id}/conversations" : {
       "get" : {
+        "tags" : [ "Conversations" ],
         "summary" : "Retrieve all Conversations for a single Member",
         "description" : "The /members/:id/conversations endpoint returns all conversation resources between the identifed member and all other members.\n",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Member's ID",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
             "description" : "Returns all Conversations.",
@@ -135,9 +163,16 @@
         }
       },
       "post" : {
+        "tags" : [ "Conversations" ],
         "summary" : "Update or create a Conversation between two Members.",
         "description" : "The /members/:id/conversations POST endpoint will create a new conversation between two members if there isn't one already. If there is, it will simply update the existing conversation by adding a message object to the existing conversation. You need only send the parameters specified below.\n",
         "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Member's ID",
+          "required" : true,
+          "type" : "string"
+        }, {
           "name" : "_recipient",
           "in" : "formData",
           "description" : "The ID for the recipient of the message.",
@@ -160,11 +195,24 @@
         }
       }
     },
-    "/members/:id:/conversations/:recipientId" : {
+    "/members/{id}/conversations/{recipientId}" : {
       "get" : {
+        "tags" : [ "Conversations" ],
         "summary" : "Retrieve the Conversation between two members",
         "description" : "The /members/:id/conversations/:recipientId endpoint returns the conversation between two members. The order of the member IDs does not matter.\n",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Member's ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "recipientId",
+          "in" : "path",
+          "description" : "The other Member's ID",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
             "description" : "Returns a single Conversation.",
@@ -175,11 +223,18 @@
         }
       }
     },
-    "/members/:id:/matches" : {
+    "/members/{id}/matches" : {
       "get" : {
+        "tags" : [ "Matches" ],
         "summary" : "Get all Matches for a single Member",
         "description" : "The /members/:id/matches endpoint returns an array of IDs where the IDs are those members whom the specified member has identified as a match.\n",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Member's ID",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
             "description" : "Returns all Matches for a Member.",
@@ -193,9 +248,16 @@
         }
       },
       "post" : {
+        "tags" : [ "Matches" ],
         "summary" : "Creates a new Match for a single Member",
         "description" : "The /members/:id/matches POST endpoint adds a member's ID to the specified member's match array.\n",
         "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Member's ID",
+          "required" : true,
+          "type" : "string"
+        }, {
           "name" : "_match",
           "in" : "formData",
           "description" : "The Match's ID",
@@ -212,11 +274,24 @@
         }
       }
     },
-    "/members/:id:/matches/:matchId" : {
+    "/members/{id}/matches/{matchId}" : {
       "delete" : {
+        "tags" : [ "Matches" ],
         "summary" : "Removes a Match for a single Member",
         "description" : "The /members/:id/matches/:matchId DELETE endpoint removes the matchId's reference from the specified Member's match array.\n",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The Member's ID",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "matchId",
+          "in" : "path",
+          "description" : "The other Member's ID",
+          "required" : true,
+          "type" : "string"
+        }],
         "responses" : {
           "200" : {
             "description" : "A Match was removed.",

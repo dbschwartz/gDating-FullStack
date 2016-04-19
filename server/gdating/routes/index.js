@@ -6,8 +6,6 @@ router.get('/ping', function(req, res, next) {
   res.status(200).send({ message: 'OK' });
 });
 
-router.get('/api-docs', function(req, res) {
-  res.sendFile(path.join(__dirname + '/../swagger/index.html'));
-});
+router.use('/api-docs', express.static('./api-docs/gdating'));
 
 module.exports = router;
