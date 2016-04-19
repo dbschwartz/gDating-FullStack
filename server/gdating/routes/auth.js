@@ -127,5 +127,4 @@ function ensureAdmin(req, res, next) {
   next();
 }
 
-
 module.exports = router;
