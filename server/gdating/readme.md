@@ -6,11 +6,11 @@ the server routes, schema, or anything else about the server. If you'd
 like an additional route created or changed, you may
 [submit an issue](https://github.com/gSchool/gdating-server/issues).
 
-The API is [hosted on Heroku](ttps://galvanize-dating-app-server.herokuapp.com/members).
+The API is [hosted on Heroku](https://galvanize-dating-app-server.herokuapp.com/gdating/members/ping).
 You may test it out by hitting a `/ping` endpoint for any of the available resources.
 
 ```
-curl https://galvanize-dating-app-server.herokuapp.com/members/ping
+curl https://galvanize-dating-app-server.herokuapp.com/gdating/members/ping
 ```
 
 ---
