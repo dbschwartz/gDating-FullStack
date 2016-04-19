@@ -142,7 +142,7 @@
           "required" : false,
           "type" : "array",
           "items" : {
-            "type" : "integer"
+            "type" : "number"
           }
         }, {
           "name" : "_matches",
