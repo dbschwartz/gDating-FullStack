@@ -27,13 +27,15 @@ router.post('/login', function (req, res, next) {
     if (!user) {
       return res.status(401).json({
         status: 'fail',
-        message: 'Email does not exist'
+        message: 'Email does not exist',
+        requestBody: req.body
       });
     } else
       if ( !req.body.password ) {
         return res.status(401),json({
           status: 'fail',
-          message: 'Missing password.'
+          message: 'Missing password.',
+          requestBody: req.body
         });
       }
       user.comparePassword(req.body.password, function (err, match) {
@@ -43,7 +45,8 @@ router.post('/login', function (req, res, next) {
         if (!match) {
           return res.status(401).json({
             status: 'fail',
-            message: 'Password is not correct'
+            message: 'Password is not correct',
+            requestBody: req.body
           });
         }
       user = user.toObject();
