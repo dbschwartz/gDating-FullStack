@@ -1,0 +1,434 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "An API designed for the Galvanize classroom",
+    "version" : "1.0.0",
+    "title" : "gDating API"
+  },
+  "host" : "galvanize-student-apis.herokuapp.com",
+  "basePath" : "/gdating",
+  "schemes" : [ "https" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/members" : {
+      "get" : {
+        "tags" : [ "Members" ],
+        "summary" : "All Members",
+        "description" : "The Members GET endpoint returns information about every member resource in the database. These resources are randomly generated and include an identifying **_id**. Under the **_matches** field, those members with whom the given member has identified as a match are shown.\n",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Limits the query results.",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Offsets the query results.",
+          "required" : false,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "An array of members",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Member"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Members" ],
+        "summary" : "Create a Member",
+        "description" : "The Members POST endpoint allows for the creation of a new member resource. The post body must contain the information formatted in the same structure as it is received from the GET request.\n",
+        "parameters" : [ ],
+        "responses" : {
+          "201" : {
+            "description" : "Successfully created.",
+            "schema" : {
+              "$ref" : "#/definitions/Member"
+            }
+          },
+          "422" : {
+            "description" : "Error in creating Member.",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/members/:id" : {
+      "get" : {
+        "summary" : "Retrieve a single Member",
+        "description" : "The Members GET endpoint with an ID returns information about a single member resource in the database.\n",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "A single member",
+            "schema" : {
+              "$ref" : "#/definitions/Member"
+            }
+          },
+          "404" : {
+            "description" : "Member not found",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_404"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update a single Member",
+        "description" : "The Members PUT endpoint with an ID updates information about a single member. Information must be sent in the same structure retrieved from the GET, although not all information must be sent.\n",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Update a Member",
+            "schema" : {
+              "$ref" : "#/definitions/Member"
+            }
+          },
+          "422" : {
+            "description" : "Error in updating the Member.",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Deactivates a single Member",
+        "description" : "The Members DELETE endpoint with an ID changes a field of active from true to false. The record is not actually removed from the database.\n",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Deletes a Member",
+            "schema" : {
+              "$ref" : "#/definitions/Member"
+            }
+          },
+          "422" : {
+            "description" : "Error in deleting the Member.",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/members/:id:/conversations" : {
+      "get" : {
+        "summary" : "Retrieve all Conversations for a single Member",
+        "description" : "The /members/:id/conversations endpoint returns all conversation resources between the identifed member and all other members.\n",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns all Conversations.",
+            "schema" : {
+              "$ref" : "#/definitions/Conversation"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Update or create a Conversation between two Members.",
+        "description" : "The /members/:id/conversations POST endpoint will create a new conversation between two members if there isn't one already. If there is, it will simply update the existing conversation by adding a message object to the existing conversation. You need only send the parameters specified below.\n",
+        "parameters" : [ {
+          "name" : "_recipient",
+          "in" : "formData",
+          "description" : "The ID for the recipient of the message.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "content",
+          "in" : "formData",
+          "description" : "The message contents",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Created or updated a Conversation.",
+            "schema" : {
+              "$ref" : "#/definitions/Conversation"
+            }
+          }
+        }
+      }
+    },
+    "/members/:id:/conversations/:recipientId" : {
+      "get" : {
+        "summary" : "Retrieve the Conversation between two members",
+        "description" : "The /members/:id/conversations/:recipientId endpoint returns the conversation between two members. The order of the member IDs does not matter.\n",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns a single Conversation.",
+            "schema" : {
+              "$ref" : "#/definitions/Conversation"
+            }
+          }
+        }
+      }
+    },
+    "/members/:id:/matches" : {
+      "get" : {
+        "summary" : "Get all Matches for a single Member",
+        "description" : "The /members/:id/matches endpoint returns an array of IDs where the IDs are those members whom the specified member has identified as a match.\n",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns all Matches for a Member.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/inline_response_200"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Creates a new Match for a single Member",
+        "description" : "The /members/:id/matches POST endpoint adds a member's ID to the specified member's match array.\n",
+        "parameters" : [ {
+          "name" : "_match",
+          "in" : "formData",
+          "description" : "The Match's ID",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "A Match was added.",
+            "schema" : {
+              "$ref" : "#/definitions/Member"
+            }
+          }
+        }
+      }
+    },
+    "/members/:id:/matches/:matchId" : {
+      "delete" : {
+        "summary" : "Removes a Match for a single Member",
+        "description" : "The /members/:id/matches/:matchId DELETE endpoint removes the matchId's reference from the specified Member's match array.\n",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "A Match was removed.",
+            "schema" : {
+              "$ref" : "#/definitions/Member"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Member" : {
+      "type" : "object",
+      "properties" : {
+        "_id" : {
+          "type" : "string",
+          "description" : "Unique and automatically generated identifier representing a specific member. Used as a database identifier."
+        },
+        "active" : {
+          "type" : "boolean",
+          "description" : "A marker of whether the user is active or not. Automatically generated."
+        },
+        "username" : {
+          "type" : "string",
+          "description" : "Unique and required identifier representing a specific member. Used as the display name on the website."
+        },
+        "names" : {
+          "$ref" : "#/definitions/Member_names"
+        },
+        "avatar" : {
+          "type" : "string",
+          "description" : "Image URL representing the member. Defaults to a random faker image url."
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "Unique identifier representing a specific member. Can be used for login identification purposes. Must be a valid email."
+        },
+        "password" : {
+          "type" : "string",
+          "description" : "An encrypted password used to allow the user to login. Must be 8 characters or greater."
+        },
+        "dob" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The member's birthday. Required and may be entered in \"YYYY-MM-DD\" format. The member must be older than 18 years old."
+        },
+        "phone" : {
+          "type" : "string",
+          "description" : "A phone number for the member. Not validated."
+        },
+        "address" : {
+          "$ref" : "#/definitions/Member_address"
+        },
+        "website" : {
+          "type" : "string",
+          "description" : "The member's website, if any."
+        },
+        "company" : {
+          "$ref" : "#/definitions/Member_company"
+        },
+        "slug" : {
+          "type" : "string",
+          "description" : "Unique and required identifier representing a specific member. To be used for the urls throughout the front end application."
+        },
+        "gender" : {
+          "type" : "number",
+          "format" : "double",
+          "description" : "A number representing the member's gender. There are four possible values -- 0, 1, 2, and 3. The default is 0."
+        },
+        "interestedIn" : {
+          "type" : "array",
+          "items" : {
+            "type" : "number",
+            "description" : "An array of numbers representing various genders (or whatever). Duplicate values are not allowed but some value is required."
+          }
+        },
+        "_matches" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/inline_response_200"
+          }
+        }
+      }
+    },
+    "Conversation" : {
+      "type" : "object",
+      "properties" : {
+        "_id" : {
+          "type" : "string",
+          "description" : "Unique and automatically generated identifier representing a specific member. Used as a database identifier."
+        },
+        "_members" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/inline_response_200"
+          }
+        },
+        "messages" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Conversation_messages"
+          }
+        }
+      }
+    },
+    "Error" : {
+      "type" : "object",
+      "properties" : {
+        "errors" : {
+          "type" : "object",
+          "description" : "Errors will be an object with the key being the field name and the content being additional information about the error.",
+          "properties" : { }
+        }
+      }
+    },
+    "inline_response_404" : {
+      "properties" : {
+        "errors" : {
+          "type" : "string",
+          "description" : "A message of the problem."
+        }
+      }
+    },
+    "inline_response_200" : {
+      "properties" : {
+        "_id" : {
+          "type" : "string",
+          "description" : "A string represent of the Mongo ObjectId."
+        }
+      }
+    },
+    "Member_names" : {
+      "properties" : {
+        "firstName" : {
+          "type" : "string",
+          "description" : "The member's first or preferred name."
+        },
+        "lastName" : {
+          "type" : "string",
+          "description" : "The member's last or given name."
+        }
+      }
+    },
+    "Member_address_geo" : {
+      "properties" : {
+        "lng" : {
+          "type" : "number",
+          "format" : "float",
+          "description" : "Required. A positive/negative value for locating the user."
+        },
+        "lat" : {
+          "type" : "number",
+          "format" : "float",
+          "description" : "Required. A positive/negative value for locating the user."
+        }
+      }
+    },
+    "Member_address" : {
+      "properties" : {
+        "zipcode" : {
+          "type" : "string",
+          "description" : "A five digit or more postal code."
+        },
+        "geo" : {
+          "$ref" : "#/definitions/Member_address_geo"
+        },
+        "suite" : {
+          "type" : "string",
+          "description" : "Identifying suite/apartment information."
+        },
+        "city" : {
+          "type" : "string",
+          "description" : "The member's city."
+        },
+        "street" : {
+          "type" : "string",
+          "description" : "The main street address."
+        }
+      }
+    },
+    "Member_company" : {
+      "properties" : {
+        "bs" : {
+          "type" : "string",
+          "description" : "Flavor text about the company."
+        },
+        "catchPhrase" : {
+          "type" : "string",
+          "description" : "Flavor text about the company."
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "The company's name."
+        }
+      }
+    },
+    "Conversation_messages" : {
+      "properties" : {
+        "_sender" : {
+          "$ref" : "#/definitions/inline_response_200"
+        },
+        "content" : {
+          "type" : "string",
+          "description" : "The message contents."
+        },
+        "timestamp" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The moment when the content was sent."
+        }
+      }
+    }
+  }
+}

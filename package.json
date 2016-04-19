@@ -20,6 +20,8 @@
     "morgan": "~1.6.1"
   },
   "devDependencies": {
+    "bootprint": "^0.8.5",
+    "bootprint-swagger": "^0.13.1",
     "browser-sync": "^2.12.3",
     "gulp": "^3.9.0",
     "gulp-clean": "^0.3.1",
