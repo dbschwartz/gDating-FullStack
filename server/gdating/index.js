@@ -3,8 +3,6 @@ var seedFns = require('./db/seeds/');
 // *** routes *** //
 var routes = require('./routes/index.js');
 var membersRoutes = require('./routes/members.js');
-var conversationsRoutes = require('./routes/conversations.js');
-var matchesRoutes = require('./routes/matches.js');
 
 module.exports = function (app) {
   // *** main routes *** //
@@ -13,4 +11,4 @@ module.exports = function (app) {
 
   // *** seed data if there is none *** //
   seedFns.begin();
-}
+};

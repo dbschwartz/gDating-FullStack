@@ -41,8 +41,8 @@ function deleteMatch (req, res) {
   return Member.findOneAndUpdate(query, {
     $pull: { _matches: req.params.matchId }
   }, options).exec()
-  .then(handlers.success(res, 201))
-  .catch(handlers.error(res, 422));
+  .then(handlers.success(res, 200))
+  .catch(handlers.error(res, 404));
 }
 
 module.exports = router;

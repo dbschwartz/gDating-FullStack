@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Member = require('../db/models').Member;
 var handlers = require('./helpers/handlers');
+var Promise = require('bluebird');
 
 router.get('/ping', handlers.ping);
 router.get('/', getAll);
@@ -38,8 +39,12 @@ function getAll (req, res) {
 
 function getOne (req, res) {
   Member.findOne({ _id: req.params.id }).exec()
+    .then(function (result) {
+      if ( !result ) { return Promise.reject('No member found with that _id'); }
+      else { return Promise.resolve(result); }
+    })
     .then(handlers.success(res))
-    .catch(handlers.error(res));
+    .catch(handlers.error(res, 404));
 }
 
 function create (req, res) {
