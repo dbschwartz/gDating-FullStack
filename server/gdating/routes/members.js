@@ -69,11 +69,22 @@ function saveMember (body) {
       var msg = { _id: 'The Member ID provided did not return a Member resource.' };
       return Promise.reject(msg);
     }
-    for ( var key in body ) {
-      member[key] = body[key];
-    }
+
+    var member = loopAndUpdate(member, body);
     return member.save();
   }
+}
+
+function loopAndUpdate (obj, body) {
+  for ( var key in body ) {
+    if ( typeof obj[key] === 'object' ) {
+      loopAndUpdate(obj[key], body[key]);
+    } else {
+      obj[key] = body[key];
+    }
+  }
+
+  return obj;
 }
 
 function deleteOne (req, res) {
