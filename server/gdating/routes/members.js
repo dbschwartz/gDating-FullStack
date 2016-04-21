@@ -3,9 +3,11 @@ var router = express.Router();
 var Member = require('../db/models').Member;
 var handlers = require('./helpers/handlers');
 var Promise = require('bluebird');
+var moment = require('moment');
 
 router.get('/ping', handlers.ping);
 router.get('/', getAll);
+router.get('/search', search);
 router.post('/', create);
 router.get('/:id', getOne);
 router.put('/:id', update);
@@ -34,6 +36,41 @@ function getAll (req, res) {
   if ( offset && Number.isInteger(offset) ) { promise = promise.skip(offset); }
 
   promise.exec()
+    .then(handlers.success(res))
+    .catch(handlers.error(res));
+}
+
+function search (req, res) {
+  var options = [];
+  var exclusive = !!req.query.exclusive;
+
+  if ( req.query.username ) { options.push({ username: req.query.username }); }
+  if ( req.query.email ) { options.push({ email: req.query.email }); }
+  if ( req.query.gender ) { options.push({ gender: req.query.gender }); }
+
+  if ( req.query.maxAge && req.query.minAge ) {
+    var maxDate = moment().subtract(req.query.maxAge, 'years');
+    var minDate = moment().subtract(req.query.minAge, 'years');
+    options.push({ dob: { $gt: maxDate, $lt: minDate } })
+  } else if ( req.query.minAge ) {
+    var minDate = moment().subtract(req.query.minAge, 'years');
+    options.push({ dob: { $lt: minDate } })
+  } else if ( req.query.maxAge ) {
+    var maxDate = moment().subtract(req.query.maxAge, 'years');
+    options.push({ dob: { $gt: maxDate } })
+  }
+
+  if ( req.query.interestedIn ) {
+    if ( exclusive ) {
+      options.push({ interestedIn: { $all: req.query.interestedIn } });
+    } else {
+      options.push({ interestedIn: { $in: req.query.interestedIn } });
+    }
+  }
+
+  var query = ( exclusive ) ? { $and: options } : { $or: options };
+
+  Member.find(query).exec()
     .then(handlers.success(res))
     .catch(handlers.error(res));
 }

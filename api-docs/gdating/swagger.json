@@ -5,9 +5,9 @@
     "version" : "1.0.0",
     "title" : "gDating API"
   },
-  "host" : "galvanize-student-apis.herokuapp.com",
+  "host" : "localhost:3000",
   "basePath" : "/gdating",
-  "schemes" : [ "https" ],
+  "schemes" : [ "http" ],
   "produces" : [ "application/json" ],
   "paths" : {
     "/auth/register" : {
@@ -67,6 +67,73 @@
           },
           "401" : {
             "description" : "Error in logging in.",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/members/search" : {
+      "get" : {
+        "tags" : [ "Search" ],
+        "summary" : "Create and login a Member",
+        "description" : "The **/auth/register** POST endpoint allows for the creation of a new member resource. The post body must contain the information formatted in the same structure as it is received from the GET request. This route will also return a token.",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "description" : "Limits the query results.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "email",
+          "in" : "query",
+          "description" : "Offsets the query results.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "gender",
+          "in" : "query",
+          "description" : "Offsets the query results.",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "maxAge",
+          "in" : "query",
+          "description" : "Offsets the query results.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "minAge",
+          "in" : "query",
+          "description" : "Offsets the query results.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "interestedIn",
+          "in" : "query",
+          "description" : "Offsets the query results.",
+          "required" : false,
+          "type" : "array",
+          "items": {
+            "type": "integer"
+          }
+        }, {
+          "name" : "exclusive",
+          "in" : "query",
+          "description" : "Offsets the query results.",
+          "required" : false,
+          "type" : "boolean"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Successfully created.",
+            "schema" : {
+              "$ref" : "#/definitions/Member"
+            }
+          },
+          "422" : {
+            "description" : "Error in creating Member.",
             "schema" : {
               "$ref" : "#/definitions/Error"
             }
