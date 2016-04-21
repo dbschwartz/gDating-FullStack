@@ -83,4 +83,58 @@ describe('members routes', function() {
     });
   });
 
+  describe('POST /gdating/members', function() {
+    it('should create a new member', function(done) {
+      chai.request(server)
+      .post('/gdating/members')
+      .send({
+        "username": "michaelherman",
+        "names": {
+          "firstName": "Michael",
+          "lastName": "Herman"
+        },
+        "description": "Just a short description",
+        "email": "michael@herman.com",
+        "password": "superstrong",
+        "dob": "1960-04-21",
+        "phone": "888888888",
+        "address": {
+          "zipcode": "80302",
+          "geo": {
+            "lng": 20,
+            "lat": 20
+          },
+          "suite": "10",
+          "city": "San Francisco",
+          "street": "1010 Market St"
+        },
+        "website": "https://realpython.com",
+        "company": {
+          "bs": "awesome python",
+          "catchPhrase": "awesome python",
+          "name": "Real Python"
+        },
+        "slug": "2020",
+        "gender": 0,
+      })
+      .end(function(err, res) {
+        res.status.should.equal(201);
+        res.type.should.equal('application/json');
+        res.body.should.be.a('object');
+        res.body.should.have.property('data');
+        res.body.data.should.be.a('object');
+        res.body.data.should.have.property('_id');
+        res.body.data.should.have.property('email');
+        res.body.data.email.should.equal('michael@herman.com');
+        res.body.data.should.have.property('active');
+        res.body.data.active.should.equal(true);
+        res.body.data.should.have.property('admin');
+        res.body.data.admin.should.equal(false);
+        res.body.data.should.have.property('gender');
+        res.body.data.gender.should.equal(0);
+        done();
+      });
+    });
+  });
+
 });
