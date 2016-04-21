@@ -12,5 +12,7 @@ module.exports = function (app) {
   app.use('/gdating/members', membersRoutes);
 
   // *** seed data if there is none *** //
-  seedFns.begin();
+  if (process.env.NODE_ENV !== 'test') {
+    seedFns.begin();
+  }
 };

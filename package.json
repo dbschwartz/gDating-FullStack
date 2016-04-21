@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./server/bin/www"
+    "start": "node ./server/bin/www",
+    "test": "mocha 'server/gdating/test/**/*.js'"
   },
   "dependencies": {
     "bcryptjs": "^2.3.0",
