@@ -22,7 +22,7 @@ function constructPerson () {
   person.password = faker.internet.password(20);
   person.description = faker.lorem.paragraphs(3);
 
-  person.email = person.email + faker.random.number(10000);
+  person.email = person.email;
   person.username = person.username.toLowerCase() + faker.random.number(10000);
   if ( person.username.length < 6 ) {
     person.username += faker.lorem.word();
