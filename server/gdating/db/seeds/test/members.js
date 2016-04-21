@@ -1,6 +1,6 @@
 var faker = require('faker');
 var Promise = require('bluebird');
-var Member = require('../models').Member;
+var Member = require('../../models').Member;
 
 module.exports = seedData;
 
@@ -15,12 +15,10 @@ function seedData (num) {
         console.log('Error generated member:', err);
         return err;
       });
-      console.log('test')
     promises.push(member);
   };
 
   return Promise.all(promises).then(function (result) {
-    console.log('Successfully seeded random members.');
     return result;
   });
 };
