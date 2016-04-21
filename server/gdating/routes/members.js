@@ -10,6 +10,7 @@ router.post('/', create);
 router.get('/:id', getOne);
 router.put('/:id', update);
 router.delete('/:id', deleteOne);
+router.get('/search/:slug', searchSlug)
 
 // conversations routes
 var conversationsRoutes = require('./conversations');
@@ -94,4 +95,10 @@ function deleteOne (req, res) {
   Member.findOneAndUpdate(query, { active: false }, options)
     .then(handlers.success(res))
     .catch(handlers.error(res, 422));
+}
+
+function searchSlug(req, res) {
+  Member.findOne({slug:req.params.slug})
+    .then(handlers.success(res))
+    .catch(handlers.error(res))
 }
