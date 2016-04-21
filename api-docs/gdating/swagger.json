@@ -381,6 +381,34 @@
           }
         }
       }
+    },
+    "/members/search/{slug}" : {
+      "get" : {
+        "tags" : [ "Members" ],
+        "summary" : "Retrieve a single Member by Slug",
+        "description" : "The Members/search/:slug GET endpoint with an slug returns information about a single member resource in the database.\n",
+        "parameters" : [ {
+          "name" : "slug",
+          "in" : "path",
+          "description" : "The Member's slug",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A single member",
+            "schema" : {
+              "$ref" : "#/definitions/Member"
+            }
+          },
+          "404" : {
+            "description" : "Member not found",
+            "schema" : {
+              "$ref" : "#/definitions/inline_response_404"
+            }
+          }
+        }
+      }
     }
   },
   "definitions" : {

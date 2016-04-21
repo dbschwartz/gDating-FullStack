@@ -19,10 +19,7 @@ function seedData (num) {
     promises.push(match);
   };
 
-  return Promise.all(promises).then(function (result) {
-    console.log('Successfully seeded random matches.');
-    return result;
-  });
+  return Promise.all(promises);
 };
 
 function constructMatch () {
