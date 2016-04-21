@@ -138,7 +138,8 @@ describe('members routes', function() {
   });
 
   describe('PUT /gdating/members/:id', function() {
-    it('should update a member', function(done) {
+    it('should update a member\'s first and last name',
+      function(done) {
       Member.findOne()
       .then(function(member) {
         var memberID = member._id;
@@ -171,6 +172,35 @@ describe('members routes', function() {
           res.body.data.admin.should.equal(member.admin);
           res.body.data.should.have.property('gender');
           res.body.data.gender.should.equal(member.gender);
+          done();
+        });
+      });
+    });
+  });
+
+  describe('PUT /gdating/members/:id', function() {
+    it('should update a member\'s interestedIn', function(done) {
+      Member.findOne()
+      .then(function(member) {
+        var memberID = member._id;
+        chai.request(server)
+        .put('/gdating/members/' + memberID)
+        .send({
+          "interestedIn": [
+            0, 1
+          ]
+        })
+        .end(function(err, res) {
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('object');
+          res.body.data.should.have.property('interestedIn');
+          res.body.data.interestedIn.should.not.equal(
+            member.interestedIn);
+          res.body.data.interestedIn[0].should.equal(0);
+          res.body.data.interestedIn[1].should.equal(1);
           done();
         });
       });
