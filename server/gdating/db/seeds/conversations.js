@@ -22,10 +22,7 @@ function seedData (num) {
     promises.push(conversation);
   };
 
-  return Promise.all(promises).then(function (result) {
-    console.log('Successfully seeded random conversations.');
-    return result;
-  });
+  return Promise.all(promises);
 };
 
 function constructConversation () {
