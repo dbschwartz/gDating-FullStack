@@ -187,7 +187,7 @@ describe('members routes', function() {
         .put('/gdating/members/' + memberID)
         .send({
           "interestedIn": [
-            0, 1
+            1, 2
           ]
         })
         .end(function(err, res) {
@@ -199,8 +199,8 @@ describe('members routes', function() {
           res.body.data.should.have.property('interestedIn');
           res.body.data.interestedIn.should.not.equal(
             member.interestedIn);
-          res.body.data.interestedIn[0].should.equal(0);
-          res.body.data.interestedIn[1].should.equal(1);
+          res.body.data.interestedIn[0].should.equal(1);
+          res.body.data.interestedIn[1].should.equal(2);
           done();
         });
       });

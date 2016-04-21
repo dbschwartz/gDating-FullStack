@@ -10,7 +10,7 @@ router.post('/', create);
 router.get('/:id', getOne);
 router.put('/:id', update);
 router.delete('/:id', deleteOne);
-router.get('/search/:slug', searchSlug)
+router.get('/search/:slug', searchSlug);
 
 // conversations routes
 var conversationsRoutes = require('./conversations');
@@ -78,7 +78,7 @@ function saveMember (body) {
 
 function loopAndUpdate (obj, body) {
   for ( var key in body ) {
-    if ( typeof obj[key] === 'object' ) {
+    if ( obj[key].constructor === Object ) {
       loopAndUpdate(obj[key], body[key]);
     } else {
       obj[key] = body[key];
