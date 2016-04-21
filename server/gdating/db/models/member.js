@@ -30,6 +30,7 @@ var MemberSchema = new Schema({
       trim: true
     }
   },
+  description: String,
   avatar: { type: String, default: faker.image.avatar() },
   email: {
     type: String,

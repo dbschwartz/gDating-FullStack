@@ -5,23 +5,14 @@ var Member = require('../models').Member;
 module.exports = seedData;
 
 function seedData (num) {
-  var promises = [];
+  var members = [];
   var toGenerate = num || 1000;
 
   for ( var i = 0; i < toGenerate; i++ ) {
-    var member = new Member(constructPerson())
-      .save()
-      .catch(function (err) {
-        console.log('Error generated member:', err);
-        return err;
-      });
-    promises.push(member);
-  };
+    members.push(constructPerson());
+  }
 
-  return Promise.all(promises).then(function (result) {
-    console.log('Successfully seeded random members.');
-    return result;
-  });
+  return Member.collection.insert(members);
 };
 
 function constructPerson () {
@@ -29,8 +20,10 @@ function constructPerson () {
   delete person.name;
 
   person.password = faker.internet.password(20);
+  person.description = faker.lorem.paragraphs(3);
 
-  person.username = person.username.toLowerCase();
+  person.email = person.email + faker.random.number(10000);
+  person.username = person.username.toLowerCase() + faker.random.number(10000);
   if ( person.username.length < 6 ) {
     person.username += faker.lorem.word();
   }
