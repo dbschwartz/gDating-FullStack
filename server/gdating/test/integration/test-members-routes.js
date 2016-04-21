@@ -137,4 +137,44 @@ describe('members routes', function() {
     });
   });
 
+  describe('PUT /gdating/members/:id', function() {
+    it('should update a member', function(done) {
+      Member.findOne()
+      .then(function(member) {
+        var memberID = member._id;
+        chai.request(server)
+        .put('/gdating/members/' + memberID)
+        .send({
+          "names": {
+            "firstName": "string",
+            "lastName": "string"
+          }
+        })
+        .end(function(err, res) {
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('object');
+          res.body.data.should.have.property('names');
+          res.body.data.names.should.have.property('firstName');
+          res.body.data.names.should.have.property('lastName');
+          res.body.data.names.firstName.should.equal('String');
+          res.body.data.names.lastName.should.equal('String');
+          res.body.data.gender.should.equal(member.gender);
+          res.body.data.should.have.property('_id');
+          res.body.data.should.have.property('email');
+          res.body.data.email.should.equal(member.email);
+          res.body.data.should.have.property('active');
+          res.body.data.active.should.equal(member.active);
+          res.body.data.should.have.property('admin');
+          res.body.data.admin.should.equal(member.admin);
+          res.body.data.should.have.property('gender');
+          res.body.data.gender.should.equal(member.gender);
+          done();
+        });
+      });
+    });
+  });
+
 });
