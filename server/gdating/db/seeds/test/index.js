@@ -4,11 +4,11 @@ var seedMembers = require('./members');
 var seedMatches = require('./matches');
 
 module.exports.test = function (done) {
-  seedMembers(1)
+  seedMembers(5)
   .then(function() {
-    seedConversations(1)
+    seedConversations(5)
     .then(function() {
-      seedMatches(1)
+      seedMatches(5)
       .then(function() {
         if(done) {
           done();

@@ -7,6 +7,7 @@ var should = chai.should();
 var server = require('../../../app');
 var testUtilities = require('../utilities');
 var seed = require('../../db/seeds/test');
+var Member = require('../../db/models/member');
 
 chai.use(chaiHttp);
 
@@ -54,6 +55,30 @@ describe('members routes', function() {
         res.body.data[0].should.have.property('admin');
         res.body.data[0].should.have.property('gender');
         done();
+      });
+    });
+  });
+
+  describe('GET /gdating/members/:id', function() {
+    it('should return a single member', function(done) {
+      Member.findOne()
+      .then(function(member) {
+        var memberID = member._id;
+        chai.request(server)
+        .get('/gdating/members/' + memberID)
+        .end(function(err, res) {
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('object');
+          res.body.data.should.have.property('_id');
+          res.body.data.should.have.property('email');
+          res.body.data.should.have.property('active');
+          res.body.data.should.have.property('admin');
+          res.body.data.should.have.property('gender');
+          done();
+        });
       });
     });
   });
