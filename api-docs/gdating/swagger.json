@@ -402,6 +402,10 @@
         "names" : {
           "$ref" : "#/definitions/Member_names"
         },
+        "description" : {
+          "type" : "string",
+          "description" : "A description of the user."
+        },
         "avatar" : {
           "type" : "string",
           "description" : "Image URL representing the member. Defaults to a random faker image url."
@@ -468,6 +472,10 @@
         "names" : {
           "$ref" : "#/definitions/Member_names"
         },
+        "description" : {
+          "type" : "string",
+          "description" : "A description of the user."
+        },
         "avatar" : {
           "type" : "string",
           "description" : "Image URL representing the member. Defaults to a random faker image url."
@@ -522,6 +530,10 @@
       "properties" : {
         "names" : {
           "$ref" : "#/definitions/Member_names"
+        },
+        "description" : {
+          "type" : "string",
+          "description" : "A description of the user."
         },
         "avatar" : {
           "type" : "string",

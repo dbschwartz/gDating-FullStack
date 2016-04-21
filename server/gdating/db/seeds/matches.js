@@ -7,7 +7,7 @@ module.exports = seedData;
 
 function seedData (num) {
   var promises = [];
-  var toGenerate = num || 3000;
+  var toGenerate = num || 5000;
 
   for ( var i = 0; i < toGenerate; i++ ) {
     var match = constructMatch()
