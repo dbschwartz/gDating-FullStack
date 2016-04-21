@@ -5,9 +5,9 @@
     "version" : "1.0.0",
     "title" : "gDating API"
   },
-  "host" : "localhost:3000",
+  "host" : "galvanize-student-apis.herokuapp.com",
   "basePath" : "/gdating",
-  "schemes" : [ "http" ],
+  "schemes" : [ "https" ],
   "produces" : [ "application/json" ],
   "paths" : {
     "/auth/register" : {
