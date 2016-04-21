@@ -72,7 +72,7 @@ function saveMember (body) {
 
     var member = loopAndUpdate(member, body);
     return member.save();
-  }
+  };
 }
 
 function loopAndUpdate (obj, body) {
