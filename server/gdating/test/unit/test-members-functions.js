@@ -3,6 +3,7 @@ process.env.NODE_ENV = 'test';
 var chai = require('chai');
 var should = chai.should();
 
+var db = require('../../db/models');
 var testUtilities = require('../utilities');
 var Member = require('../../db/models/member');
 var data = require('./unit-test-data');
@@ -41,38 +42,58 @@ function findMember () {
 // begin tests
 describe('members functions', function() {
 
-  beforeEach(function(done) {
-    testUtilities.dropDatabase();
-    Member.insert(data.user);
+  describe('loopAndUpdate', function() {
+
+    beforeEach(function(done) {
+      testUtilities.dropDatabase();
+      Member.collection.insert(data.user);
+      done();
+    });
+
+    afterEach(function(done) {
+      testUtilities.dropDatabase(done);
+    });
+
+    it('changes nothing if nothing is different', function(done) {
+      loopAndUpdate(data.user, data.user).should.eql(data.user);
+      done();
+    });
+
+    xit('loopAndUpdate updates first level keys')
+
+    xit('loopAndUpdate updates second level keys')
+
+    xit('loopAndUpdate updates third level keys')
+
+    xit('loopAndUpdate updates arrays')
+
+    xit('loopAndUpdate only updates a string with a string')
+
+    xit('loopAndUpdate only updates a number with a number')
+
+    xit('loopAndUpdate only updates an array with an array')
+
+    xit('loopAndUpdate leaves an object\'s structure intact')
+
   });
 
-  afterEach(function(done) {
-    testUtilities.dropDatabase(done);
+  describe('saveMember', function() {
+
+    beforeEach(function(done) {
+      testUtilities.dropDatabase();
+      Member.collection.insert(data.user);
+    });
+
+    afterEach(function(done) {
+      testUtilities.dropDatabase(done);
+    });
+
+    xit('saveMember returns reject a message object without body')
+
+    xit('saveMember returns reject a message object without member')
+
+    xit('saveMember hashes password if it has been changed')
+
   });
-
-  describe('loopAndUpdate changes nothing if nothing is different')
-
-  describe('loopAndUpdate updates first level keys')
-
-  describe('loopAndUpdate updates second level keys')
-
-  describe('loopAndUpdate updates third level keys')
-
-  describe('loopAndUpdate updates arrays')
-
-  describe('loopAndUpdate only updates a string with a string')
-
-  describe('loopAndUpdate only updates a number with a number')
-
-  describe('loopAndUpdate only updates an array with an array')
-
-  describe('loopAndUpdate leaves an object\'s structure intact')
-
-  describe('saveMember returns reject a message object without body')
-
-  describe('saveMember returns reject a message object without member')
-
-  describe('saveMember hashes password if it has been changed')
-
 
 });
