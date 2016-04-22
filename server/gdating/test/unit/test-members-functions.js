@@ -42,7 +42,7 @@ function findMember () {
 // begin tests
 describe('members functions', function() {
 
-  describe('loopAndUpdate', function() {
+  describe('loopAndUpdate', () => {
 
     beforeEach(function(done) {
       testUtilities.dropDatabase();
@@ -54,26 +54,50 @@ describe('members functions', function() {
       testUtilities.dropDatabase(done);
     });
 
-    it('changes nothing if nothing is different', function(done) {
+    it('changes nothing if nothing is different', (done) => {
       loopAndUpdate(data.user, data.user).should.eql(data.user);
       done();
     });
 
-    xit('loopAndUpdate updates first level keys')
+    it('loopAndUpdate updates first level keys', (done) => {
+      loopAndUpdate(data.user, data.updateFirstLevelKeys).should.equal(data.updateFirstLevelKeys);
+      done();
+    });
 
-    xit('loopAndUpdate updates second level keys')
+    xit('loopAndUpdate updates second level keys', (done) => {
+      loopAndUpdate(data.user, data.updateSecondLevelKeys).should.equal(data.updateSecondLevelKeys);
+      done();
+    })
 
-    xit('loopAndUpdate updates third level keys')
+    xit('loopAndUpdate updates third level keys', (done) => {
+      loopAndUpdate(data.user, data.updateThirdLevelKeys).should.equal(data.updateThirdLevelKeys);
+      done();
+    })
 
-    xit('loopAndUpdate updates arrays')
+    xit('loopAndUpdate updates arrays', (done) => {
+      loopAndUpdate(data.user, data.updateArray).should.equal(data.updateArray);
+      done();
+    });
 
-    xit('loopAndUpdate only updates a string with a string')
+    xit('loopAndUpdate only updates a string with a string', (done) => {
+      loopAndUpdate(data.user, data.updateCoerceString).should.equal(data.updateCoerceString);
+      done();
+    });
 
-    xit('loopAndUpdate only updates a number with a number')
+    xit('loopAndUpdate only updates a number with a number', (done) => {
+      loopAndUpdate(data.user, data.updateCoerceNumber).should.equal(data.updateCoerceNumber);
+      done();
+    });
 
-    xit('loopAndUpdate only updates an array with an array')
+    xit('loopAndUpdate only updates an array with an array', (done) => {
+      loopAndUpdate(data.user, data.updateCoerceArray).should.equal(data.updateCoerceArray);
+      done();
+    })
 
-    xit('loopAndUpdate leaves an object\'s structure intact')
+    xit('loopAndUpdate leaves an object\'s structure intact', (done) => {
+      loopAndUpdate(data.user, data.updateCoerceObject).should.equal(data.updateCoerceObject);
+      done();
+    })
 
   });
 
