@@ -44,58 +44,49 @@ describe('members functions', function() {
 
   describe('loopAndUpdate', () => {
 
-    beforeEach(function(done) {
-      testUtilities.dropDatabase();
-      Member.collection.insert(data.user);
-      done();
-    });
-
-    afterEach(function(done) {
-      testUtilities.dropDatabase(done);
-    });
-
     it('changes nothing if nothing is different', (done) => {
       loopAndUpdate(data.user, data.user).should.eql(data.user);
       done();
     });
 
-    it('loopAndUpdate updates first level keys', (done) => {
-      loopAndUpdate(data.user, data.updateFirstLevelKeys).should.equal(data.updateFirstLevelKeys);
+    it('updates first level keys', (done) => {
+      loopAndUpdate(data.user, data.updateFirstLevelKeys).should.eql(data.updateFirstLevelKeys);
       done();
     });
 
-    xit('loopAndUpdate updates second level keys', (done) => {
-      loopAndUpdate(data.user, data.updateSecondLevelKeys).should.equal(data.updateSecondLevelKeys);
+    it('updates second level keys', (done) => {
+      loopAndUpdate(data.user, data.updateSecondLevelKeys).should.eql(data.updateSecondLevelKeys);
       done();
     })
 
-    xit('loopAndUpdate updates third level keys', (done) => {
-      loopAndUpdate(data.user, data.updateThirdLevelKeys).should.equal(data.updateThirdLevelKeys);
+    it('updates third level keys', (done) => {
+      loopAndUpdate(data.user, data.updateThirdLevelKeys).should.eql(data.updateThirdLevelKeys);
       done();
     })
 
-    xit('loopAndUpdate updates arrays', (done) => {
-      loopAndUpdate(data.user, data.updateArray).should.equal(data.updateArray);
+    it('updates arrays', (done) => {
+      loopAndUpdate(data.user, data.updateArray).should.eql(data.updateArray);
       done();
     });
 
-    xit('loopAndUpdate only updates a string with a string', (done) => {
-      loopAndUpdate(data.user, data.updateCoerceString).should.equal(data.updateCoerceString);
+    it('only updates a string with a string', (done) => {
+      loopAndUpdate(data.user, data.updateCoerceString).should.eql(data.user);
       done();
     });
 
-    xit('loopAndUpdate only updates a number with a number', (done) => {
-      loopAndUpdate(data.user, data.updateCoerceNumber).should.equal(data.updateCoerceNumber);
+    it('only updates a number with a number', (done) => {
+      loopAndUpdate(data.user, data.updateCoerceNumber).should.eql(data.user);
       done();
     });
 
-    xit('loopAndUpdate only updates an array with an array', (done) => {
-      loopAndUpdate(data.user, data.updateCoerceArray).should.equal(data.updateCoerceArray);
+    it('only updates an array with an array', (done) => {
+      loopAndUpdate(data.user, data.updateCoerceArray).should.eql(data.user);
+      console.log(data.user);
       done();
     })
 
-    xit('loopAndUpdate leaves an object\'s structure intact', (done) => {
-      loopAndUpdate(data.user, data.updateCoerceObject).should.equal(data.updateCoerceObject);
+    it('leaves an object\'s structure intact', (done) => {
+      loopAndUpdate(data.user, data.updateCoerceObject).should.eql(data.user);
       done();
     })
 
