@@ -4,7 +4,7 @@ module.exports = {
     username: 'randal.roob5002',
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/j_drake_/128.jpg',
     email: 'Randal.Roob84@gmail.com',
-    dob: Wed Mar 19 1947 17:54:18 GMT-0600 (MDT),
+    dob: 'Wed Mar 19 1947 17:54:18 GMT-0600 (MDT)',
     phone: '987-916-5059',
     address:
      { street: 'Damien Mission',
@@ -31,7 +31,7 @@ module.exports = {
     username: 'randal.rocks27',
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/j_drake_/128.jpg',
     email: 'Randal.Rocks27@gmail.com',
-    dob: Wed Mar 19 1947 17:54:18 GMT-0600 (MDT),
+    dob: 'Wed Mar 19 1947 17:54:18 GMT-0600 (MDT)',
     phone: '987-916-5059',
     address:
      { street: 'Damien Mission',
@@ -57,7 +57,7 @@ module.exports = {
     username: 'randal.roob5002',
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/j_drake_/128.jpg',
     email: 'Randal.Roob84@gmail.com',
-    dob: Wed Mar 19 1947 17:54:18 GMT-0600 (MDT),
+    dob: 'Wed Mar 19 1947 17:54:18 GMT-0600 (MDT)',
     phone: '987-916-5059',
     address:
     // updates street, suite and city
@@ -84,7 +84,7 @@ module.exports = {
     username: 'randal.roob5002',
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/j_drake_/128.jpg',
     email: 'Randal.Roob84@gmail.com',
-    dob: Wed Mar 19 1947 17:54:18 GMT-0600 (MDT),
+    dob: 'Wed Mar 19 1947 17:54:18 GMT-0600 (MDT)',
     phone: '987-916-5059',
     address:
      { street: 'Damien Mission',
@@ -111,7 +111,7 @@ module.exports = {
     username: 'randal.roob5002',
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/j_drake_/128.jpg',
     email: 'Randal.Roob84@gmail.com',
-    dob: Wed Mar 19 1947 17:54:18 GMT-0600 (MDT),
+    dob: 'Wed Mar 19 1947 17:54:18 GMT-0600 (MDT)',
     phone: '987-916-5059',
     address:
      { street: 'Damien Mission',
@@ -138,7 +138,7 @@ module.exports = {
     username: 'randal.roob5002',
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/j_drake_/128.jpg',
     email: 'Randal.Roob84@gmail.com',
-    dob: Wed Mar 19 1947 17:54:18 GMT-0600 (MDT),
+    dob: 'Wed Mar 19 1947 17:54:18 GMT-0600 (MDT)',
     // changes phone to Number from String
     phone: 9879165059,
     address:
@@ -165,7 +165,7 @@ module.exports = {
     username: 'randal.roob5002',
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/j_drake_/128.jpg',
     email: 'Randal.Roob84@gmail.com',
-    dob: Wed Mar 19 1947 17:54:18 GMT-0600 (MDT),
+    dob: 'Wed Mar 19 1947 17:54:18 GMT-0600 (MDT)',
     phone: '987-916-5059',
     address:
      { street: 'Damien Mission',
@@ -192,7 +192,7 @@ module.exports = {
     username: 'randal.roob5002',
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/j_drake_/128.jpg',
     email: 'Randal.Roob84@gmail.com',
-    dob: Wed Mar 19 1947 17:54:18 GMT-0600 (MDT),
+    dob: 'Wed Mar 19 1947 17:54:18 GMT-0600 (MDT)',
     phone: '987-916-5059',
     address:
      { street: 'Damien Mission',
@@ -219,7 +219,7 @@ module.exports = {
     username: 'randal.roob5002',
     avatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/j_drake_/128.jpg',
     email: 'Randal.Roob84@gmail.com',
-    dob: Wed Mar 19 1947 17:54:18 GMT-0600 (MDT),
+    dob: 'Wed Mar 19 1947 17:54:18 GMT-0600 (MDT)',
     phone: '987-916-5059',
     address:
      { street: 'Damien Mission',
