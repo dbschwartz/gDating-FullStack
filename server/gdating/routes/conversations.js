@@ -33,6 +33,7 @@ function createOrUpdate (req, res) {
   Promise.all(members)
     .then(handlers.conversation.validation)
     .then(upsert)
+    .then(emitMessage)
     .then(handlers.success(res, 201))
     .catch(handlers.error(res, 422));
 };
@@ -45,6 +46,11 @@ function getOne (req, res) {
   })
   .then(handlers.success(res))
   .catch(handlers.error(res));
+};
+
+function emitMessage (msg) {
+  global.io.emit('gdating.messages', msg);
+  return msg;
 };
 
 function upsert (msg) {
