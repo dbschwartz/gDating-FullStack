@@ -9,7 +9,7 @@ var server = require('../../../app');
 chai.use(chaiHttp);
 
 
-describe('index routes', function() {
+describe('gdating : routes : index', function() {
 
   describe('GET /gdating/ping', function() {
     it('should return a response', function(done) {

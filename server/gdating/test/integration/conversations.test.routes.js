@@ -12,7 +12,7 @@ var Member = require('../../db/models/member');
 chai.use(chaiHttp);
 
 
-describe('conversations routes', function() {
+describe('gdating : routes : conversations', function() {
 
   beforeEach(function(done) {
     testUtilities.dropDatabase();
