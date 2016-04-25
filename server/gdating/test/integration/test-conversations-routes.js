@@ -23,6 +23,24 @@ describe('conversations routes', function() {
     testUtilities.dropDatabase(done);
   });
 
+  describe('GET /gdating/members/:id/conversations/ping', function() {
+    it('should return a response', function(done) {
+      Member.findOne()
+      .then(function(member) {
+        chai.request(server)
+        .get('/gdating/members/' + member._id + '/conversations/ping')
+        .end(function(err, res) {
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.should.be.a('object');
+          res.body.should.have.property('message');
+          res.body.message.should.equal('OK');
+          done();
+        });
+      });
+    });
+  });
+
   describe('GET /gdating/members/:id/conversations', function() {
     it('should return a members\' conversations', function(done) {
       Member.findOne()
@@ -45,26 +63,61 @@ describe('conversations routes', function() {
     });
   });
 
+  describe('GET /gdating/members/:id/conversations', function() {
+    it('should return a conversation between two members', function(done) {
+      Member.find().limit(2)
+      .then(function(members) {
+        var member1 = members[0]._id;
+        var member2 = members[1]._id;
+        chai.request(server)
+        .post('/gdating/members/'+ member1 + '/conversations')
+        .send({
+          _recipient: member2,
+          content: "Hello World."
+        })
+        .end(function (err, res) {
+          chai.request(server)
+          .get('/gdating/members/' + member1 + '/conversations/' + member2)
+          .end(function(err, res) {
+            res.status.should.equal(200);
+            res.type.should.equal('application/json');
+            res.body.should.be.a('object');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('Array');
+            res.body.data[0].should.have.property('_id');
+            res.body.data[0].should.have.property('messages');
+            res.body.data[0].should.have.property('_members');
+
+            var messages = res.body.data[0].messages;
+            messages[messages.length-1].content.should.equal('Hello World.');
+            done();
+          });
+        });
+      });
+    });
+  });
+
   describe('POST /gdating/members/:id/conversations', function() {
     it('should return a members\' conversations', function(done) {
-      Member.findOne()
-      .then(function(member) {
-        var memberID = member._id;
+      Member.find().limit(2)
+      .then(function(members) {
+        var member1 = members[0]._id;
+        var member2 = members[1]._id;
         chai.request(server)
-        .post('/gdating/members/'+ memberID + '/conversations')
+        .post('/gdating/members/'+ member1 + '/conversations')
         .send({
-            _recipient:1,
-            content:"1"
+            _recipient: member2,
+            content: "Hello World."
           })
         .end(function(err, res) {
-          res.status.should.equal(200);
+          res.status.should.equal(201);
           res.type.should.equal('application/json');
           res.body.should.be.a('object');
           res.body.should.have.property('data');
-          res.body.data.should.be.a('Array');
-          res.body.data[0].should.have.property('_id');
-          res.body.data[0].should.have.property('messages');
-          res.body.data[0].should.have.property('_members');
+          res.body.data.should.be.a('Object');
+          res.body.data.should.have.property('_id');
+          res.body.data.should.have.property('messages');
+          res.body.data.should.have.property('_members');
           done();
         });
       });
