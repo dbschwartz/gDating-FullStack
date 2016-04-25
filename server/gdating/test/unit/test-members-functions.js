@@ -81,14 +81,13 @@ describe('members functions', function() {
 
     it('only updates an array with an array', (done) => {
       loopAndUpdate(data.user, data.updateCoerceArray).should.eql(data.user);
-      console.log(data.user);
       done();
-    })
+    });
 
     it('leaves an object\'s structure intact', (done) => {
       loopAndUpdate(data.user, data.updateCoerceObject).should.eql(data.user);
       done();
-    })
+    });
 
   });
 
