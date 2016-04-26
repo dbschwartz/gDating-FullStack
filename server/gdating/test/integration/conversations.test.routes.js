@@ -23,26 +23,8 @@ describe('gdating : routes : conversations', function() {
     testUtilities.dropDatabase(done);
   });
 
-  describe('GET /gdating/members/:id/conversations/ping', function() {
-    it('should return a response', function(done) {
-      Member.findOne()
-      .then(function(member) {
-        chai.request(server)
-        .get('/gdating/members/' + member._id + '/conversations/ping')
-        .end(function(err, res) {
-          res.status.should.equal(200);
-          res.type.should.equal('application/json');
-          res.body.should.be.a('object');
-          res.body.should.have.property('message');
-          res.body.message.should.equal('OK');
-          done();
-        });
-      });
-    });
-  });
-
   describe('GET /gdating/members/:id/conversations', function() {
-    it('should return a members\' conversations', function(done) {
+    xit('should return a members\' conversations', function(done) {
       Member.findOne()
       .then(function(member) {
         var memberID = member._id;
@@ -64,7 +46,7 @@ describe('gdating : routes : conversations', function() {
   });
 
   describe('GET /gdating/members/:id/conversations', function() {
-    it('should return a conversation between two members', function(done) {
+    xit('should return a conversation between two members', function(done) {
       Member.find().limit(2)
       .then(function(members) {
         var member1 = members[0]._id;
@@ -98,7 +80,7 @@ describe('gdating : routes : conversations', function() {
   });
 
   describe('POST /gdating/members/:id/conversations', function() {
-    it('should return a members\' conversations', function(done) {
+    xit('should return a members\' conversations', function(done) {
       Member.find().limit(2)
       .then(function(members) {
         var member1 = members[0]._id;

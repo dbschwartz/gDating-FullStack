@@ -21,7 +21,7 @@ function getAll (req, res) {
   })
   .then(handlers.success(res))
   .catch(handlers.error(res));
-};
+}
 
 function createOrUpdate (req, res) {
   if ( !req.body.content ) {
