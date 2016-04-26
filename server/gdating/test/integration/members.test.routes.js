@@ -8,11 +8,11 @@ var server = require('../../../app');
 var testUtilities = require('../utilities');
 var seed = require('../../db/seeds/test');
 var Member = require('../../db/models/member');
+var moment = require('moment');
 
 chai.use(chaiHttp);
 
-
-describe('members routes', function() {
+describe('gdating : routes : members', function() {
 
   beforeEach(function(done) {
     testUtilities.dropDatabase();
@@ -237,4 +237,165 @@ describe('members routes', function() {
     });
   });
 
+  describe('GET /gdating/members/search', function () {
+    ['username', 'email', 'gender'].forEach(function (field) {
+      it('should return a member when searched by ' + field, function (done) {
+        Member.findOne()
+        .then(function (member) {
+          chai.request(server)
+          .get('/gdating/members/search?' + field + '=' + member[field])
+          .end(function (err, res) {
+            res.status.should.equal(200);
+            res.type.should.equal('application/json');
+            res.body.should.be.a('object');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('array');
+            res.body.data[0].should.have.property('_id');
+            res.body.data[0]._id.should.equal(member._id.toString());
+            done();
+          });
+        });
+      });
+    });
+
+    it('should allow for searching by interestedIn', function (done) {
+      Member.findOne()
+      .then(function (member) {
+        chai.request(server)
+        .get('/gdating/members/search?interestedIn[]=' + member.interestedIn[0])
+        .end(function (err, res) {
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.data.some(function (returned) {
+            return returned._id.toString() === member._id.toString();
+          }).should.equal(true);
+          done();
+        });
+      });
+    });
+
+    it('should allow a minAge to be set', function (done) {
+      Member.findOne()
+      .then(function (member) {
+        var age = -moment(member.dob).diff(moment(), 'years');
+        chai.request(server)
+        .get('/gdating/members/search?minAge=' + (age - 1))
+        .end(function (err, res) {
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.data.some(function (returned) {
+            return returned._id.toString() === member._id.toString();
+          }).should.equal(true);
+          done();
+        });
+      });
+    });
+
+    it('should allow a maxAge to be set', function (done) {
+      Member.findOne()
+      .then(function (member) {
+        var age = -moment(member.dob).diff(moment(), 'years');
+        chai.request(server)
+        .get('/gdating/members/search?maxAge=' + (age + 1))
+        .end(function (err, res) {
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.data.some(function (returned) {
+            return returned._id.toString() === member._id.toString();
+          }).should.equal(true);
+          done();
+        });
+      });
+    });
+
+    it('should allow for both minAge and maxAge to be set', function (done) {
+      Member.findOne()
+      .then(function (member) {
+        var age = -moment(member.dob).diff(moment(), 'years');
+        chai.request(server)
+        .get('/gdating/members/search?minAge=' + (age - 1) + '&maxAge=' + (age + 1))
+        .end(function (err, res) {
+          res.status.should.equal(200);
+          res.type.should.equal('application/json');
+          res.body.should.be.a('object');
+          res.body.should.have.property('data');
+          res.body.data.should.be.a('array');
+          res.body.data.some(function (returned) {
+            return returned._id.toString() === member._id.toString();
+          }).should.equal(true);
+          done();
+        });
+      });
+    });
+
+    it('should default to an inclusive search', function (done) {
+      Member.find().limit(2)
+      .then(function (members) {
+        var username = members[0].username;
+        var email = members[1].email;
+
+        chai.request(server)
+        .get('/gdating/members/search?username=' + username + '&email=' + email)
+        .end(function (err, res) {
+            res.status.should.equal(200);
+            res.type.should.equal('application/json');
+            res.body.should.be.a('object');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('array');
+            res.body.data.length.should.equal(2);
+            done();
+        });
+      });
+    });
+
+    it('should allow for an exclusive search', function (done) {
+      Member.find().limit(2)
+      .then(function (members) {
+        var username = members[0].username;
+        var email = members[1].email;
+
+        chai.request(server)
+        .get('/gdating/members/search?exclusive=true&username='
+              + username + '&email=' + email)
+        .end(function (err, res) {
+            res.status.should.equal(200);
+            res.type.should.equal('application/json');
+            res.body.should.be.a('object');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('array');
+            res.body.data.length.should.equal(0);
+            done();
+        });
+      });
+    });
+  });
+
+  describe('GET /gdating/members/seach/:slug', function () {
+    it('searches by a user\'s slug name', function (done) {
+      Member.findOne()
+      .then(function (member) {
+        chai.request(server)
+        .get('/gdating/members/search/' + member.slug)
+        .end(function (err, res) {
+            res.status.should.equal(200);
+            res.type.should.equal('application/json');
+            res.body.should.be.a('object');
+            res.body.should.have.property('data');
+            res.body.data.should.be.a('object');
+            res.body.data.should.have.property('_id');
+            res.body.data._id.should.equal(member._id.toString());
+            done();
+        });
+      });
+    });
+  });
 });

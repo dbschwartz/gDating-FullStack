@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./server/bin/www",
-    "test": "mocha 'server/gdating/test/**/*.js'"
+    "test": "mocha 'server/gdating/test/**/*.test.*.js'"
   },
   "dependencies": {
     "bcryptjs": "^2.3.0",
