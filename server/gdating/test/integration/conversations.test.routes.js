@@ -24,7 +24,7 @@ describe('gdating : routes : conversations', function() {
   });
 
   describe('GET /gdating/members/:id/conversations', function() {
-    xit('should return a members\' conversations', function(done) {
+    it('should return a members\' conversations', function(done) {
       Member.findOne()
       .then(function(member) {
         var memberID = member._id;
@@ -46,7 +46,7 @@ describe('gdating : routes : conversations', function() {
   });
 
   describe('GET /gdating/members/:id/conversations', function() {
-    xit('should return a conversation between two members', function(done) {
+    it('should return a conversation between two members', function(done) {
       Member.find().limit(2)
       .then(function(members) {
         var member1 = members[0]._id;
@@ -80,7 +80,7 @@ describe('gdating : routes : conversations', function() {
   });
 
   describe('POST /gdating/members/:id/conversations', function() {
-    xit('should return a members\' conversations', function(done) {
+    it('should create or update a new conversation between two members', function(done) {
       Member.find().limit(2)
       .then(function(members) {
         var member1 = members[0]._id;
