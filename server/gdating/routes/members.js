@@ -1,14 +1,15 @@
 var express = require('express');
 var router = express.Router();
-var Member = require('../db/models').Member;
-var handlers = require('./helpers/handlers');
 var Promise = require('bluebird');
 var moment = require('moment');
+var Member = require('../db/models').Member;
+var handlers = require('./helpers/handlers');
+var authHelpers = require('./helpers/auth');
 
 router.get('/ping', handlers.ping);
 router.get('/', getAll);
 router.get('/search', search);
-router.post('/', create);
+router.post('/', authHelpers.ensureAuthenticated, authHelpers.ensureAdmin, create);
 router.get('/:id', getOne);
 router.put('/:id', update);
 router.delete('/:id', deleteOne);
@@ -51,13 +52,13 @@ function search (req, res) {
   if ( req.query.maxAge && req.query.minAge ) {
     var maxDate = moment().subtract(req.query.maxAge, 'years');
     var minDate = moment().subtract(req.query.minAge, 'years');
-    options.push({ dob: { $gt: maxDate, $lt: minDate } })
+    options.push({ dob: { $gt: maxDate, $lt: minDate } });
   } else if ( req.query.minAge ) {
     var minDate = moment().subtract(req.query.minAge, 'years');
-    options.push({ dob: { $lt: minDate } })
+    options.push({ dob: { $lt: minDate } });
   } else if ( req.query.maxAge ) {
     var maxDate = moment().subtract(req.query.maxAge, 'years');
-    options.push({ dob: { $gt: maxDate } })
+    options.push({ dob: { $gt: maxDate } });
   }
 
   if ( req.query.interestedIn ) {
@@ -137,5 +138,5 @@ function deleteOne (req, res) {
 function searchSlug(req, res) {
   Member.findOne({slug:req.params.slug})
     .then(handlers.success(res))
-    .catch(handlers.error(res))
+    .catch(handlers.error(res));
 }
