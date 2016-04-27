@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('_example:server');
 var http = require('http');
+var gdatingIO = require('../gdating/lib/io');
 
 /**
  * Get port from environment and store in Express.
@@ -25,16 +26,15 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+var listener = server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
 /**
- * Listen on provided port, on all network interfaces.
+ * socket.io
  */
 
-var io = require('socket.io')(server);
-global.io = io;
+gdatingIO.attach(listener);
 
 /**
  * Normalize a port into a number, string, or false.

@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router({ mergeParams: true });
 var db = require('../db/models');
 var handlers = require('./helpers/handlers');
+var io = require('../lib/io');
 
 router.get('/ping', handlers.ping);
 router.get('/', getAll);
@@ -49,7 +50,7 @@ function getOne (req, res) {
 };
 
 function emitMessage (msg) {
-  global.io.emit('gdating.messages', msg);
+  io.sockets.emit('gdating.messages', msg);
   return msg;
 };
 
